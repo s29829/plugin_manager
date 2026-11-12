@@ -1,0 +1,9 @@
+name: plugin_manager
+version: 1.12
+title: Plugin Manager
+desc: Upload plugins as .zip archives (with overwrite confirmation) and delete plugin folders
+author: Jacek Kowalczyk
+config_url: /plugins/plugin_manager/pages/setup.php
+default_priority: 999
+icon: puzzle-piece
+category: System
