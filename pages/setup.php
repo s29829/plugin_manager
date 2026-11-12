@@ -17,6 +17,7 @@ $error       = '';
 $pending     = null;  // upload waiting for "Overwrite / Cancel"
 $token       = '';
 $action      = (string) ($_POST['action'] ?? '');
+$reset_open  = false; // open the collapsible "Reset plugin" box after a failed reset
 
 plugin_manager_pending_cleanup();
 plugin_manager_cleanup_workdirs();
@@ -91,11 +92,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($_POST) && empty($_FILES) && 
     }
 } elseif ($action === 'reset') {
     if (trim((string) ($_POST['reset_confirm'] ?? '')) !== 'RESET') {
-        $error = 'Not reset: type RESET (capital letters) to confirm.';
+        $error      = 'Not reset: type RESET (capital letters) to confirm.';
+        $reset_open = true;
     } elseif (plugin_manager_reset()) {
         $message = 'Plugin Manager was reset: uploads waiting for a decision and leftover work folders were deleted. Installed plugins were not changed.';
     } else {
-        $error = 'Some files could not be deleted (check permissions of ' . plugin_manager_base_dir() . ').';
+        $error      = 'Some files could not be deleted (check permissions of ' . plugin_manager_base_dir() . ').';
+        $reset_open = true;
     }
 }
 
@@ -167,11 +170,24 @@ include '../../../include/header.php';
         .pa-tip-text b { display: block; margin-bottom: 4px; }
         .pa-tip-text span { display: block; opacity: 0.8; font-size: 0.9em; margin-top: 4px; }
         .pa-doc { margin-left: 6px; }
-        .pa-cfg { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 4px; text-decoration: none; color: inherit; }
-        .pa-cfg svg { display: block; width: 18px; height: 18px; fill: currentColor; }
+        .pa-cfg { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 4px; text-decoration: none; color: inherit; }
+        .pa-cfg svg { display: block; width: 24px; height: 24px; fill: currentColor; }
         a.pa-cfg:hover, a.pa-cfg:focus { background: rgba(128, 128, 128, 0.2); }
         .pa-cfg-off { opacity: 0.3; cursor: not-allowed; }
         .pa-toggle { width: 8.5em; box-sizing: border-box; text-align: center; }
+        /* Outline button (Deactivate) */
+        .pa-page button.pa-outline { background: transparent; color: inherit; border: 1px solid currentColor; box-shadow: none; }
+        .pa-page button.pa-outline:hover, .pa-page button.pa-outline:focus { background: rgba(128, 128, 128, 0.18); }
+        /* Centered columns: Version, Info, Status, Options, Activate */
+        .pa-table th.pa-c, .pa-table td.pa-c { text-align: center; }
+        .pa-table td.pa-c { vertical-align: middle; }
+        /* Collapsible box (Reset plugin) */
+        details.pa-box > summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; }
+        details.pa-box > summary::-webkit-details-marker { display: none; }
+        details.pa-box > summary::before { content: "\25B8"; display: inline-block; transition: transform 0.15s; }
+        details.pa-box[open] > summary::before { transform: rotate(90deg); }
+        details.pa-box > summary h3 { margin: 0; display: inline; }
+        details.pa-box[open] > summary { margin-bottom: 8px; }
     </style>
 
     <?php if ($pending !== null) { ?>
@@ -194,22 +210,6 @@ include '../../../include/header.php';
         </div>
     <?php } ?>
 
-    <!-- Upload -->
-    <div class="pa-box">
-        <h3>Upload a plugin</h3>
-        <p>Upload a <b>.zip</b> archive that contains the plugin folder (<code>&lt;name&gt;/&lt;name&gt;.yaml</code> ...) or the plugin files directly (<code>&lt;name&gt;.yaml</code> in the root of the archive). It is unpacked to <code><?php echo $h($plugins_dir); ?>/&lt;name&gt;</code>.
-            The plugin name (the name of the .yaml file) may contain only lowercase letters, numbers and "_".
-            If the plugin already exists (also in filestore/plugins) you can choose to overwrite it in its current folder or cancel.</p>
-        <form method="post" action="<?php echo $h($self); ?>" enctype="multipart/form-data">
-            <?php generateFormToken('plugin_manager'); ?>
-            <div class="pa-row">
-                <input type="file" name="plugin_zip" accept=".zip,application/zip" required>
-                <button type="submit" name="action" value="upload"<?php echo ($writable && $has_zip) ? '' : ' disabled'; ?>>Upload</button>
-            </div>
-        </form>
-        <p class="pa-muted">Server limits: upload_max_filesize = <?php echo $h(ini_get('upload_max_filesize')); ?>, post_max_size = <?php echo $h(ini_get('post_max_size')); ?> (nginx: client_max_body_size).</p>
-    </div>
-
     <!-- Installed plugins -->
     <div class="pa-box">
         <h3>Installed plugins (<?php echo count($list); ?>)</h3>
@@ -217,7 +217,7 @@ include '../../../include/header.php';
             <?php generateFormToken('plugin_manager'); ?>
             <input type="hidden" name="plugin" id="pa-toggle-plugin" value="">
             <table class="pa-table">
-                <tr><th>Folder</th><th>Title</th><th>Version</th><th>Info</th><th>Status</th><th>Options</th><th></th></tr>
+                <tr><th>Folder</th><th>Title</th><th class="pa-c">Version</th><th class="pa-c">Info</th><th class="pa-c">Status</th><th class="pa-c">Options</th><th class="pa-c">Activate</th></tr>
                 <?php foreach ($list as $n => $p) {
                     $is_active = isset($active[$n]);
                     $blocker   = plugin_manager_toggle_blocker($n, !$is_active, $active, $list);
@@ -234,8 +234,8 @@ include '../../../include/header.php';
                             <?php if ($p['shadowed'] !== '') { ?><br><span class="pa-warn-text" title="<?php echo $h($p['shadowed']); ?>">Duplicate name: a second copy in <?php echo $h(dirname($p['shadowed'])); ?> is ignored by ResourceSpace.</span><?php } ?>
                         </td>
                         <td><?php echo $p['has_yaml'] ? $h($p['title']) : '<i class="pa-muted">no ' . $h($n) . '.yaml</i>'; ?></td>
-                        <td><?php echo $h($p['version']); ?></td>
-                        <td class="pa-info">
+                        <td class="pa-c"><?php echo $h($p['version']); ?></td>
+                        <td class="pa-info pa-c">
                             <?php if ($p['desc'] !== '' || $extra) { ?>
                                 <i class="pa-tip" tabindex="0" aria-label="Plugin information">i<span class="pa-tip-text" role="tooltip">
                                     <b><?php echo $h($p['title'] !== '' ? $p['title'] : $n); ?></b>
@@ -247,13 +247,13 @@ include '../../../include/header.php';
                                 <a class="pa-doc" href="<?php echo $h($doc); ?>" target="_blank" rel="noopener noreferrer">Doc</a>
                             <?php } ?>
                         </td>
-                        <td><?php
+                        <td class="pa-c"><?php
                             if (($active[$n] ?? '') === 'config') {
                                 echo '<span class="pa-on">active</span> <span class="pa-muted">(config.php)</span>';
                             } else {
                                 echo $is_active ? '<span class="pa-on">active</span>' : '<span class="pa-muted">inactive</span>';
                             } ?></td>
-                        <td>
+                        <td class="pa-c">
                             <?php if ($cfg !== '' && $is_active) { ?>
                                 <a class="pa-cfg" href="<?php echo $h($cfg); ?>" title="Options of <?php echo $h($n); ?>" aria-label="Options of <?php echo $h($n); ?>"><?php echo $gear; ?></a>
                             <?php } elseif ($cfg !== '') { ?>
@@ -262,9 +262,9 @@ include '../../../include/header.php';
                                 <span class="pa-cfg pa-cfg-off" title="This plugin has no options page"><?php echo $gear; ?></span>
                             <?php } ?>
                         </td>
-                        <td>
+                        <td class="pa-c">
                             <?php if ($blocker === '') { ?>
-                                <button type="submit" name="action" value="<?php echo $is_active ? 'deactivate' : 'activate'; ?>" class="pa-toggle" data-name="<?php echo $h($n); ?>"><?php echo $is_active ? 'Deactivate' : 'Activate'; ?></button>
+                                <button type="submit" name="action" value="<?php echo $is_active ? 'deactivate' : 'activate'; ?>" class="pa-toggle<?php echo $is_active ? ' pa-outline' : ''; ?>" data-name="<?php echo $h($n); ?>"><?php echo $is_active ? 'Deactivate' : 'Activate'; ?></button>
                             <?php } else { ?>
                                 <span class="pa-muted" title="<?php echo $h($blocker); ?>">-</span>
                             <?php } ?>
@@ -273,6 +273,22 @@ include '../../../include/header.php';
                 <?php } ?>
             </table>
         </form>
+    </div>
+
+    <!-- Upload -->
+    <div class="pa-box">
+        <h3>Upload a plugin</h3>
+        <p>Upload a <b>.zip</b> archive that contains the plugin folder (<code>&lt;name&gt;/&lt;name&gt;.yaml</code> ...) or the plugin files directly (<code>&lt;name&gt;.yaml</code> in the root of the archive). It is unpacked to <code><?php echo $h($plugins_dir); ?>/&lt;name&gt;</code>.
+            The plugin name (the name of the .yaml file) may contain only lowercase letters, numbers and "_".
+            If the plugin already exists (also in filestore/plugins) you can choose to overwrite it in its current folder or cancel.</p>
+        <form method="post" action="<?php echo $h($self); ?>" enctype="multipart/form-data">
+            <?php generateFormToken('plugin_manager'); ?>
+            <div class="pa-row">
+                <input type="file" name="plugin_zip" accept=".zip,application/zip" required>
+                <button type="submit" name="action" value="upload"<?php echo ($writable && $has_zip) ? '' : ' disabled'; ?>>Upload</button>
+            </div>
+        </form>
+        <p class="pa-muted">Server limits: upload_max_filesize = <?php echo $h(ini_get('upload_max_filesize')); ?>, post_max_size = <?php echo $h(ini_get('post_max_size')); ?> (nginx: client_max_body_size).</p>
     </div>
 
     <!-- Delete -->
@@ -304,9 +320,9 @@ include '../../../include/header.php';
         <?php } ?>
     </div>
 
-    <!-- Reset -->
-    <div class="pa-box">
-        <h3>Reset plugin</h3>
+    <!-- Reset (collapsible) -->
+    <details class="pa-box"<?php echo $reset_open ? ' open' : ''; ?>>
+        <summary><h3>Reset plugin</h3></summary>
         <p>Deletes everything Plugin Manager stored: uploads waiting for "Overwrite / Cancel" (<code><?php echo $h(plugin_manager_base_dir()); ?></code>)
             and work folders left behind by interrupted installs or deletes. <b>Installed plugins are not changed.</b></p>
         <form method="post" action="<?php echo $h($self); ?>" id="pa-reset">
@@ -316,7 +332,7 @@ include '../../../include/header.php';
                 <button type="submit" name="action" value="reset">Reset plugin</button>
             </div>
         </form>
-    </div>
+    </details>
 
     <script<?php echo $nonce; ?>>
     // Activate / Deactivate buttons: send the plugin name of the clicked row

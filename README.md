@@ -2,7 +2,7 @@
 
 **English** | [Polski](README.pl.md)
 
-Documentation for plugin version **1.12** (ResourceSpace 11).
+Documentation for plugin version **1.13** (ResourceSpace 11).
 *(since X.YY)* marks the plugin version in which a feature first appeared. Features without
 a mark have been available since 1.00. Change history (in Polish): [CHANGELOG.md](CHANGELOG.md).
 
@@ -23,6 +23,8 @@ be deleted. Not to be confused with ResourceSpace's own page System > Plugins.
 ---
 
 ## Upload a plugin
+
+The **Upload a plugin** box is below the list of installed plugins *(since 1.13; before: above it)*.
 
 1. Choose a `.zip` file and click **Upload**.
 2. The plugin is checked and unpacked to `<RS_ROOT>/plugins/<name>`.
@@ -71,7 +73,10 @@ A table of all plugins in `plugins/` and `filestore/plugins` *(second folder: si
 | **Info** *(since 1.01)* | "i" icon – tooltip with description, author and category. "Doc" links to the documentation (`info_url`). |
 | **Status** | `active` / `inactive`. "(config.php)" means the plugin is enabled in `config.php`. |
 | **Options** *(since 1.02)* | The gear icon opens the plugin's options page (only for active plugins that have one). |
-| last *(since 1.01)* | **Activate** / **Deactivate** – the same functions as ResourceSpace's Plugins page. Deactivating asks for confirmation. |
+| **Activate** *(since 1.01; column title since 1.13)* | **Activate** / **Deactivate** – the same functions as ResourceSpace's Plugins page. Deactivating asks for confirmation. **Deactivate** is an outline button *(since 1.13)*. |
+
+The columns Version, Info, Status, Options and Activate are centred, and the gear icon is larger
+*(since 1.13)*.
 
 The status cannot be changed here when:
 
@@ -159,6 +164,8 @@ ResourceSpace requires anyway.
 It only needs write access to the filestore, which ResourceSpace requires anyway.
 
 ## Reset plugin *(since 1.09)*
+
+The box is collapsed – click its title to open it *(since 1.13)*; it opens by itself after a failed reset.
 
 The **Reset plugin** box (after typing `RESET`) deletes everything Plugin Manager stored: uploads
 waiting for a decision (`<filestore>/plugin_manager`, also the old folder `<temp>/plugin_manager`) and

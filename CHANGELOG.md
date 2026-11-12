@@ -3,6 +3,9 @@
 Numeracja wtyczki: 1.00, 1.01, 1.02 … (+0.01 przy każdej zmianie, `tools/release.py bump`).
 Wersja wtyczki w `plugin_manager.yaml`; wersja całego repozytorium w pliku `VERSION` (zob. `CHANGELOG.md` w katalogu głównym).
 
+## [1.13] - 2026-11-12
+- Ramka Upload a plugin pod listą wtyczek; większa ikona Options; wyśrodkowane kolumny Version, Info, Status, Options, Activate; przycisk Deactivate w wersji outline; rozwijana ramka Reset plugin.
+
 ## [1.12] - 2026-11-12
 - Nowa nazwa: Plugin Manager (katalog plugin_manager, wcześniej Plugin Admin / pluginadmin); strona przypomina o wyłączeniu i usunięciu starej wtyczki pluginadmin; nowe repozytorium s29829/plugin_manager.
 

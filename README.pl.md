@@ -2,7 +2,7 @@
 
 [English](README.md) | **Polski**
 
-Dokumentacja dla wersji wtyczki **1.12** (ResourceSpace 11).
+Dokumentacja dla wersji wtyczki **1.13** (ResourceSpace 11).
 Znacznik *(od X.YY)* oznacza wersję wtyczki, od której funkcja jest dostępna. Funkcje bez
 znacznika są dostępne od wersji 1.00. Historia zmian: [CHANGELOG.md](CHANGELOG.md).
 
@@ -23,6 +23,8 @@ i można go usunąć. Nie myl jej ze stroną ResourceSpace System > Plugins.
 ---
 
 ## Upload a plugin – wgrywanie wtyczki
+
+Panel **Upload a plugin** jest pod listą zainstalowanych wtyczek *(od 1.13; wcześniej nad nią)*.
 
 1. Wybierz plik `.zip` i kliknij **Upload**.
 2. Wtyczka jest sprawdzana i rozpakowywana do `<RS_ROOT>/plugins/<nazwa>`.
@@ -71,7 +73,10 @@ Tabela wszystkich wtyczek z `plugins/` oraz `filestore/plugins` *(drugi katalog:
 | **Info** *(od 1.01)* | Ikona „i” – dymek z opisem, autorem i kategorią. „Doc” to link do dokumentacji (`info_url`). |
 | **Status** | `active` / `inactive`. „(config.php)” oznacza wtyczkę włączoną na sztywno w `config.php`. |
 | **Options** *(od 1.02)* | Trybik prowadzi do strony opcji wtyczki (aktywny tylko dla włączonych wtyczek, które mają opcje). |
-| ostatnia *(od 1.01)* | **Activate** / **Deactivate** – te same funkcje co na stronie Plugins w ResourceSpace. Wyłączenie trzeba potwierdzić. |
+| **Activate** *(od 1.01; nagłówek od 1.13)* | **Activate** / **Deactivate** – te same funkcje co na stronie Plugins w ResourceSpace. Wyłączenie trzeba potwierdzić. **Deactivate** to przycisk w wersji outline *(od 1.13)*. |
+
+Kolumny Version, Info, Status, Options i Activate są wyśrodkowane, a ikona trybiku jest większa
+*(od 1.13)*.
 
 Statusu nie można zmienić tutaj, gdy:
 
@@ -159,6 +164,8 @@ ResourceSpace i tak wymaga.
 Potrzebuje tylko prawa zapisu do filestore, które ResourceSpace i tak wymaga.
 
 ## Reset wtyczki *(od 1.09)*
+
+Panel jest zwinięty – kliknij tytuł, aby go rozwinąć *(od 1.13)*; po nieudanym resecie otwiera się sam.
 
 Panel **Reset plugin** (po wpisaniu `RESET`) usuwa wszystko, co zapisała Plugin Manager: wgrane
 pliki czekające na decyzję (`<filestore>/plugin_manager`, także stary katalog `<temp>/plugin_manager`)
