@@ -3,6 +3,9 @@
 Numeracja wtyczki: 1.00, 1.01, 1.02 … (+0.01 przy każdej zmianie, `tools/release.py bump`).
 Wersja wtyczki w `plugin_manager.yaml`; wersja całego repozytorium w pliku `VERSION` (zob. `CHANGELOG.md` w katalogu głównym).
 
+## [1.14] - 2026-11-13
+- Dokumentacja: instalacja na Apache (Ubuntu/Debian i rodzina RHEL) – użytkownik i grupa uruchamiające PHP (mod_php / PHP-FPM), uprawnienia, wyłączenie listowania katalogów (Options -Indexes), SELinux; LimitRequestBody, zapis do plugins/ i php-pecl-zip.
+
 ## [1.13] - 2026-11-12
 - Ramka Upload a plugin pod listą wtyczek; większa ikona Options; wyśrodkowane kolumny Version, Info, Status, Options, Activate; przycisk Deactivate w wersji outline; rozwijana ramka Reset plugin.
 

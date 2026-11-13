@@ -2,7 +2,7 @@
 
 [English](README.md) | **Polski**
 
-Dokumentacja dla wersji wtyczki **1.13** (ResourceSpace 11).
+Dokumentacja dla wersji wtyczki **1.14** (ResourceSpace 11).
 Znacznik *(od X.YY)* oznacza wersję wtyczki, od której funkcja jest dostępna. Funkcje bez
 znacznika są dostępne od wersji 1.00. Historia zmian: [CHANGELOG.md](CHANGELOG.md).
 
@@ -60,7 +60,8 @@ Zabezpieczenia przy wgrywaniu:
   Przy nadpisywaniu stara wersja jest przywracana, jeśli coś się nie uda.
 
 Limit rozmiaru pliku zależy od serwera: `upload_max_filesize` i `post_max_size` w PHP oraz
-`client_max_body_size` w nginx. Aktualne wartości widać pod formularzem.
+`client_max_body_size` w nginx albo `LimitRequestBody` w Apache (domyślnie 1 GB od Apache 2.4.53).
+Aktualne wartości PHP widać pod formularzem.
 
 ## Installed plugins – lista wtyczek
 
@@ -115,7 +116,8 @@ także z `filestore/plugins`.
 Wtyczka jest dystrybuowana jako archiwum `plugin_manager-<wersja>.zip` na stronie wydań:
 <https://github.com/s29829/plugin_manager/releases>. Archiwum zawiera katalog `plugin_manager/` z kodem, licencją
 i dokumentacją. Poniżej `<RS_ROOT>` to katalog instalacji ResourceSpace (np.
-`/var/www/resourcespace`), a `www-data` to użytkownik serwera WWW (w innych systemach np. `apache`).
+`/var/www/resourcespace`), a `www-data:www-data` to użytkownik i grupa, które uruchamiają PHP – przy Apache w RHEL, Rocky, Alma
+czy Fedorze `apache:apache` (zob. „nginx czy Apache” niżej).
 
 Plugin Manager nie może zainstalować samej siebie – pierwszą instalację wykonaj z wiersza poleceń.
 Potrzebne są rozszerzenie PHP zip i prawo zapisu serwera WWW do `<RS_ROOT>/plugins` (zob.
@@ -146,14 +148,52 @@ sudo chown -R www-data:www-data <RS_ROOT>/plugins/plugin_manager
 
 Aktualizacja: `sudo git -C <RS_ROOT>/plugins/plugin_manager pull`.
 
+### nginx czy Apache
+
+Wtyczka działa tak samo z oboma serwerami WWW. Różnią się tylko użytkownik uruchamiający PHP, nazwy
+usług i kilka ustawień serwera – w poleceniach wyżej użyj użytkownika i grupy z tabeli:
+
+| | nginx + PHP-FPM (Ubuntu / Debian) | Apache (Ubuntu / Debian) | Apache (RHEL, Rocky, Alma, Fedora) |
+|---|---|---|---|
+| Użytkownik:grupa uruchamiające PHP | `www-data:www-data` | `www-data:www-data` | `apache:apache` |
+| Przeładowanie po aktualizacji | `sudo systemctl restart php8.3-fpm` | mod_php: `sudo systemctl reload apache2`; PHP-FPM: `sudo systemctl restart php8.3-fpm` | mod_php: `sudo systemctl reload httpd`; PHP-FPM: `sudo systemctl restart php-fpm` |
+
+- **Kto uruchamia PHP:** przy Apache z mod_php – użytkownik Apache; przy PHP-FPM (nginx lub Apache) –
+  użytkownik puli PHP-FPM (`user =` / `group =` w `/etc/php/<wersja>/fpm/pool.d/www.conf`, w rodzinie RHEL
+  `/etc/php-fpm.d/www.conf`). Sprawdzenie: `ps -o user= -C php-fpm8.3,php-fpm,apache2,httpd | sort -u`.
+- **Uprawnienia:** katalogi `755`, pliki `644`, właściciel = ten użytkownik i grupa (polecenia wyżej).
+  Pliki wtyczki muszą być tylko czytelne; `<filestore>` musi być zapisywalny dla tego użytkownika – tak
+  samo, jak wymaga tego ResourceSpace.
+- **Bez listowania katalogów (Apache):** Apache w Ubuntu / Debian pozwala listować katalogi w `/var/www`
+  (`Options Indexes` w `apache2.conf`). Wtyczka trzyma ustawienia w `<filestore>/<wtyczka>/data_<klucz>/`,
+  a listing pokazałby nazwę tego katalogu. Wyłącz listowanie dla ResourceSpace (VirtualHost albo
+  `apache2.conf` / `httpd.conf`) i przeładuj Apache:
+
+  ```apache
+  <Directory <RS_ROOT>>
+      Options -Indexes +FollowSymLinks
+  </Directory>
+  ```
+
+  nginx nie listuje katalogów, jeśli nie ustawiono `autoindex on`.
+- **SELinux (rodzina RHEL):** po rozpakowaniu przywróć etykiety plików:
+  `sudo restorecon -R <RS_ROOT>/plugins/plugin_manager`. Filestore potrzebuje etykiety do zapisu (zwykle ustawionej
+  przy instalacji ResourceSpace): `sudo semanage fcontext -a -t httpd_sys_rw_content_t "<filestore>(/.*)?"`
+  i `sudo restorecon -R <filestore>`.
+- **Plugin Manager zapisuje w `<RS_ROOT>/plugins`:** użytkownik uruchamiający PHP musi mieć tam prawo
+  zapisu (`sudo chown -R <użytkownik>:<grupa> <RS_ROOT>/plugins`); przy SELinux także etykietę do
+  zapisu: `sudo semanage fcontext -a -t httpd_sys_rw_content_t "<RS_ROOT>/plugins(/.*)?"` i
+  `sudo restorecon -R <RS_ROOT>/plugins`. Rozszerzenie PHP `zip`: `php8.3-zip` w Ubuntu / Debian,
+  `php-pecl-zip` w rodzinie RHEL; potem restart PHP-FPM albo Apache.
+
 Na koniec: System > Plugins, aktywuj „Plugin Manager” i kliknij **Options**. Wtyczka sama tworzy
 swój katalog danych `<filestore>/plugin_manager` – potrzebuje tylko prawa zapisu do filestore, które
 ResourceSpace i tak wymaga.
 
 ### Wymagania
 
-- Potrzebne jest rozszerzenie PHP `zip` (np. `sudo apt install php8.3-zip`, potem restart PHP-FPM).
-- Serwer WWW (`www-data`) musi mieć prawo zapisu do `<RS_ROOT>/plugins`, inaczej wgrywanie
+- Potrzebne jest rozszerzenie PHP `zip` (np. `sudo apt install php8.3-zip`, w rodzinie RHEL `php-pecl-zip`, potem restart PHP-FPM albo Apache).
+- Użytkownik uruchamiający PHP (`www-data`, przy Apache w rodzinie RHEL `apache`) musi mieć prawo zapisu do `<RS_ROOT>/plugins`, inaczej wgrywanie
   i usuwanie wtyczek nie działa: `sudo chown -R www-data:www-data <RS_ROOT>/plugins`.
 - Wgrane pliki czekające na decyzję („Overwrite / Cancel”) są w
   `<filestore>/plugin_manager/data_<klucz>/pending/` *(od 1.09; wcześniej w `<temp>/plugin_manager/`)*.
