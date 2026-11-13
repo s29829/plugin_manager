@@ -1,5 +1,5 @@
 name: plugin_manager
-version: 1.14
+version: 1.15
 title: Plugin Manager
 desc: Upload plugins as .zip archives (with overwrite confirmation) and delete plugin folders
 author: Jacek Kowalczyk

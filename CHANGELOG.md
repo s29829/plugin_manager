@@ -1,52 +1,54 @@
 # Changelog - Plugin Manager
 
-Numeracja wtyczki: 1.00, 1.01, 1.02 … (+0.01 przy każdej zmianie, `tools/release.py bump`).
-Wersja wtyczki w `plugin_manager.yaml`; wersja całego repozytorium w pliku `VERSION` (zob. `CHANGELOG.md` w katalogu głównym).
+Plugin version numbers: 1.00, 1.01, 1.02 … (+0.01 for every change). The current version is in `plugin_manager.yaml`.
+
+## [1.15] - 2026-11-13
+- Documentation: English is the main language - change history translated to English.
 
 ## [1.14] - 2026-11-13
-- Dokumentacja: instalacja na Apache (Ubuntu/Debian i rodzina RHEL) – użytkownik i grupa uruchamiające PHP (mod_php / PHP-FPM), uprawnienia, wyłączenie listowania katalogów (Options -Indexes), SELinux; LimitRequestBody, zapis do plugins/ i php-pecl-zip.
+- Documentation: installation on Apache (Ubuntu/Debian and the RHEL family) – user and group that run PHP (mod_php / PHP-FPM), permissions, no directory listings (Options -Indexes), SELinux; LimitRequestBody, write access to plugins/ and php-pecl-zip.
 
 ## [1.13] - 2026-11-12
-- Ramka Upload a plugin pod listą wtyczek; większa ikona Options; wyśrodkowane kolumny Version, Info, Status, Options, Activate; przycisk Deactivate w wersji outline; rozwijana ramka Reset plugin.
+- "Upload a plugin" box below the plugin list; bigger Options icon; centred columns Version, Info, Status, Options, Activate; outline Deactivate button; collapsible "Reset plugin" box.
 
 ## [1.12] - 2026-11-12
-- Nowa nazwa: Plugin Manager (katalog plugin_manager, wcześniej Plugin Admin / pluginadmin); strona przypomina o wyłączeniu i usunięciu starej wtyczki pluginadmin; nowe repozytorium s29829/plugin_manager.
+- New name: Plugin Manager (folder plugin_manager, previously Plugin Admin / pluginadmin); the page reminds you to deactivate and delete the old plugin pluginadmin; new repository s29829/plugin_manager.
 
 ## [1.11] - 2026-11-11
-- Porządki w historii zmian (bez zmian w działaniu wtyczki).
+- Clean-up of the change history (no change in the plugin).
 
 ## [1.10] - 2026-11-11
-- Dokumentacja: instalacja przez Plugin Manager albo CLI (curl, unzip, chown) bez skryptów bash; wydania zawierają tylko archiwum zip.
+- Documentation: installation with Plugin Manager or on the command line (curl, unzip, chown) without bash scripts; releases contain only the zip archive.
 
 ## [1.09] - 2026-11-11
-- Pliki czekające na „Overwrite / Cancel” w <filestore>/plugin_manager/data_<klucz>/pending/ (wcześniej katalog tymczasowy); opcja „Reset plugin” (usuwa te pliki i pozostałe katalogi robocze, zainstalowanych wtyczek nie zmienia); usunięte wszystkie wywołania z @ (sprawdzanie plików i uprawnień przed użyciem).
+- Files waiting for "Overwrite / Cancel" in <filestore>/plugin_manager/data_<key>/pending/ (previously the temporary folder); "Reset plugin" (deletes these files and other working folders, does not change installed plugins); all `@` calls removed (files and permissions are checked before use).
 
 ## [1.08] - 2026-11-11
-- Zmiany w dokumentacji i narzędziach wydawniczych (bez zmian w działaniu wtyczki).
+- Changes in the documentation and release tools (no change in the plugin).
 
 ## [1.07] - 2026-11-11
-- Zmiany w dokumentacji i narzędziach wydawniczych (bez zmian w działaniu wtyczki).
+- Changes in the documentation and release tools (no change in the plugin).
 
 ## [1.06] - 2026-11-11
-- Samodzielny pakiet zip (release.py package): plik LICENSE-COMMERCIAL.md w katalogu wtyczki, licencja i dokumentacja w paczce; instrukcja instalacji z archiwum zip.
+- Self-contained zip package: LICENSE-COMMERCIAL.md in the plugin folder, license and documentation in the package; installation instructions for the zip archive.
 
 ## [1.05] - 2026-11-11
-- Licencja PolyForm Noncommercial 1.0.0 (plik LICENSE; użycie komercyjne tylko za pisemną zgodą autora); sekcja „Licencja” w dokumentacji.
+- License PolyForm Noncommercial 1.0.0 (file LICENSE; commercial use only with the author's written permission); "License" section in the documentation.
 
 ## [1.04] - 2026-11-11
-- Dokumentacja w katalogu wtyczki: README.md (EN) i README.pl.md (PL), ze znacznikami wersji, od której dostępna jest każda funkcja.
+- Documentation in the plugin folder: README.md (EN) and README.pl.md (PL), with the version in which each feature appeared.
 
 ## [1.03] - 2026-11-09
-- Zgodność z wytycznymi ResourceSpace: obsługa obu lokalizacji wtyczek – `plugins/` i `filestore/plugins` (lista, usuwanie, nadpisywanie w bieżącym katalogu wtyczki; unikalność nazw sprawdzana w obu; ostrzeżenie o zduplikowanej nazwie).
-- Nazwy nowo wgrywanych wtyczek tylko z małych liter, cyfr i `_` (nazwa jest częścią nazw funkcji hooków).
+- Follows the ResourceSpace guidelines: both plugin locations are supported – `plugins/` and `filestore/plugins` (list, delete and overwrite in the plugin's current folder; names checked for uniqueness in both; warning about a duplicate name).
+- Names of newly uploaded plugins only with lower-case letters, digits and `_` (the name is part of the hook function names).
 
 ## [1.02] - 2026-11-09
-- Kolumna „Options” z ikoną trybika (wbudowany SVG, link do `config_url` wtyczki) – aktywna tylko dla włączonych wtyczek.
-- Przyciski „Activate” / „Deactivate” o jednakowej szerokości.
+- "Options" column with a cog icon (inline SVG, link to the plugin's `config_url`) – active only for activated plugins.
+- "Activate" / "Deactivate" buttons with the same width.
 
 ## [1.01] - 2026-11-08
-- Kolumna „Info”: dymek z opisem `desc`, autorem i kategorią z pliku YAML oraz link „Doc” z `info_url`.
-- Przyciski „Delete” na liście zastąpione przyciskami „Activate” / „Deactivate” (funkcje `activate_plugin` / `deactivate_plugin` ResourceSpace).
+- "Info" column: tooltip with `desc`, author and category from the YAML file and a "Doc" link from `info_url`.
+- "Delete" buttons in the list replaced with "Activate" / "Deactivate" (ResourceSpace functions `activate_plugin` / `deactivate_plugin`).
 
 ## [1.00] - 2026-11-08
-- Pierwsza wersja: wgrywanie wtyczek jako archiwum `.zip` (rozpakowywane do `/plugins/<nazwa>`; jeśli wtyczka już istnieje – wybór „Overwrite” / „Cancel”) oraz usuwanie katalogu wtyczki po potwierdzeniu nazwą wtyczki lub słowem `delete`. Aktywnych wtyczek i samej Plugin Manager nie można usunąć.
+- First version: upload of plugins as a `.zip` archive (unpacked to `/plugins/<name>`; if the plugin already exists – choice "Overwrite" / "Cancel") and deletion of a plugin folder after confirming with the plugin name or the word `delete`. Active plugins and Plugin Manager itself cannot be deleted.

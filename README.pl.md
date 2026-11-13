@@ -2,9 +2,9 @@
 
 [English](README.md) | **Polski**
 
-Dokumentacja dla wersji wtyczki **1.14** (ResourceSpace 11).
+Dokumentacja dla wersji wtyczki **1.15** (ResourceSpace 11).
 Znacznik *(od X.YY)* oznacza wersję wtyczki, od której funkcja jest dostępna. Funkcje bez
-znacznika są dostępne od wersji 1.00. Historia zmian: [CHANGELOG.md](CHANGELOG.md).
+znacznika są dostępne od wersji 1.00. Historia zmian (po angielsku): [CHANGELOG.md](CHANGELOG.md).
 
 Wtyczka pozwala zarządzać wtyczkami ResourceSpace z przeglądarki, bez dostępu do serwera.
 Można nią wgrać wtyczkę z archiwum `.zip` (także nadpisać istniejącą), włączyć ją lub wyłączyć,

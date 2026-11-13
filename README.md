@@ -2,9 +2,9 @@
 
 **English** | [Polski](README.pl.md)
 
-Documentation for plugin version **1.14** (ResourceSpace 11).
+Documentation for plugin version **1.15** (ResourceSpace 11).
 *(since X.YY)* marks the plugin version in which a feature first appeared. Features without
-a mark have been available since 1.00. Change history (in Polish): [CHANGELOG.md](CHANGELOG.md).
+a mark have been available since 1.00. Change history: [CHANGELOG.md](CHANGELOG.md).
 
 The plugin lets you manage ResourceSpace plugins in the browser, without server access. You can
 upload a plugin as a `.zip` archive (also to overwrite an existing one), activate or deactivate
