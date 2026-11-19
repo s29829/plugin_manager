@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plugin Manager – ResourceSpace plugin</title>
+<meta name="description" content="Install, update, activate and delete ResourceSpace plugins in the browser – no server access needed.">
+<meta property="og:title" content="Plugin Manager – ResourceSpace plugin">
+<meta property="og:description" content="Install, update, activate and delete ResourceSpace plugins in the browser – no server access needed.">
+<meta property="og:type" content="website">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css?v=202611191157">
+</head>
+<body style="--accent: #7c3aed">
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="../resourcespace-plugins/"><span class="brand-mark" aria-hidden="true"></span>ResourceSpace plugins</a>
+    <nav class="tabs" aria-label="Plugins">
+      <a class="tab" href="../custom-css/" style="--tab-accent: #2563eb" title="Custom CSS"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.5 3.5a2.1 2.1 0 0 1 3 3L12 16l-3-3z"/><path d="M9 13c-2.5 0-4 1.5-4 4 0 1.5-1 2.5-2 3 4 1 9 0 9-4"/></svg><span>Custom CSS</span></a>
+      <a class="tab" href="../plugin_manager/" style="--tab-accent: #7c3aed" title="Plugin Manager" aria-current="page"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M17.5 14v7M14 17.5h7"/></svg><span>Plugin Manager</span></a>
+      <a class="tab" href="../permission_group_manager/" style="--tab-accent: #0d9488" title="Permission Group Manager"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17" cy="9" r="2.5"/><path d="M16.5 14.2c2.9.2 5 2.4 5 5.8"/></svg><span>Permissions</span></a>
+      <a class="tab" href="../collection_access_manager/" style="--tab-accent: #d97706" title="Collection Access Manager"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.6l2 2.5h8.4A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/><path d="M8.5 13.5l2.5 2.5 4.5-4.5"/></svg><span>Collection Access</span></a>
+      <a class="tab" href="../security_guard/" style="--tab-accent: #dc2626" title="Security Guard"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.9-7.5-9.5V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><span>Security Guard</span></a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<section class="hero">
+<div class="wrap hero-grid">
+  <div>
+    <div class="badge-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M17.5 14v7M14 17.5h7"/></svg></div>
+    <div class="eyebrow">ResourceSpace 11 plugin</div>
+    <h1>Plugin Manager</h1>
+    <p class="lead">Install, update, activate and delete ResourceSpace plugins in the browser – no server access needed.</p>
+    <p>Plugin Manager lets administrators manage plugins without logging in to the server. Upload a plugin as a .zip archive (also to update an existing one), activate or deactivate it, open its options or delete its folder.</p>
+  </div>
+  <aside class="download-card" aria-label="Download">
+    <div class="label">Latest release</div>
+    <div class="version">v<span data-repo="s29829/plugin_manager" data-field="version">1.15</span></div>
+    <div class="meta" data-repo="s29829/plugin_manager" data-field="meta">Released 13 Nov 2026</div>
+    <a class="btn btn-primary" href="https://github.com/s29829/plugin_manager/releases/download/v1.15/plugin_manager-1.15.zip" data-repo="s29829/plugin_manager" data-field="url"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg> Download .zip</a>
+    <div class="links">
+      <a href="https://github.com/s29829/plugin_manager/releases/tag/v1.15" data-repo="s29829/plugin_manager" data-field="notes">Release notes</a>
+      <a href="https://github.com/s29829/plugin_manager">Source on GitHub</a>
+      <a href="https://github.com/s29829/plugin_manager/releases">All releases</a>
+    </div>
+  </aside>
+</div>
+</section>
+<section class="section" id="features">
+<div class="wrap">
+  <h2>Features</h2>
+  <div class="grid">
+      <div class="card feature"><h3>Upload a .zip</h3><p>The archive is checked and unpacked into the plugins folder. Both layouts work: a top folder with the plugin, or the plugin files directly in the archive.</p></div>
+      <div class="card feature"><h3>Overwrite with confirmation</h3><p>When the plugin already exists, the installed and uploaded title and version are shown side by side – Overwrite or Cancel.</p></div>
+      <div class="card feature"><h3>Safe unpacking</h3><p>Limits on file count and size, no paths leaving the plugin folder, no symbolic links, system junk skipped. Unpacked to a temporary folder first, and the old version is restored if anything fails.</p></div>
+      <div class="card feature"><h3>Installed plugins</h3><p>One table of plugins from plugins/ and filestore/plugins: title, version, description, status, options and Activate / Deactivate.</p></div>
+      <div class="card feature"><h3>Delete a plugin</h3><p>Only inactive plugins, confirmed by typing the plugin name. The folder is moved first and deleted afterwards, so a failed delete never leaves half a plugin.</p></div>
+      <div class="card feature"><h3>Clear reasons</h3><p>Plugins enabled in config.php, blocked by $disabled_plugins or without a YAML file are shown with the reason why they cannot be changed.</p></div>
+  </div>
+</div>
+</section>
+<section class="section" id="install">
+<div class="wrap">
+  <h2>Installation</h2>
+  <div class="install">
+    <div class="card">
+      <h3>In ResourceSpace</h3>
+      <ol>
+<li>Plugin Manager cannot install itself – do the <strong>first installation from the command line</strong>.</li>
+<li>Activate it in <strong>System &gt; Plugins</strong> and open its <strong>Options</strong>.</li>
+<li>Later updates: <strong>Upload a plugin</strong> &gt; choose the new .zip &gt; <strong>Overwrite</strong>.</li>
+      </ol>
+      <p class="hint">Updating: upload the new .zip and choose <strong>Overwrite</strong>. Settings and data are kept in the filestore, outside the plugin folder.</p>
+    </div>
+    <div class="card">
+      <h3>On the server (command line)</h3>
+      <div class="code-wrap"><pre class="code"><code><span class="c"># download and unpack – &lt;RS_ROOT&gt; is your ResourceSpace folder</span>
+cd /tmp
+curl -fLO https://github.com/s29829/plugin_manager/releases/download/v<span data-repo="s29829/plugin_manager" data-field="version">1.15</span>/plugin_manager-<span data-repo="s29829/plugin_manager" data-field="version">1.15</span>.zip
+<span class="c"># only when updating – the plugin data stays in the filestore</span>
+sudo rm -rf &lt;RS_ROOT&gt;/plugins/plugin_manager
+sudo unzip -q plugin_manager-<span data-repo="s29829/plugin_manager" data-field="version">1.15</span>.zip -d &lt;RS_ROOT&gt;/plugins/
+sudo chown -R www-data:www-data &lt;RS_ROOT&gt;/plugins/plugin_manager</code></pre></div>
+      <p class="hint"><code>www-data</code> is the user that runs PHP (Apache on the RHEL family: <code>apache</code>). Then activate the plugin in System &gt; Plugins. With git: <code>git clone https://github.com/s29829/plugin_manager &lt;RS_ROOT&gt;/plugins/plugin_manager</code></p>
+    </div>
+  </div>
+</div>
+</section>
+<section class="section" id="more">
+<div class="wrap two">
+  <div class="card">
+    <h2>Requirements</h2>
+    <ul class="req"><li>ResourceSpace 11</li><li>PHP zip extension</li><li>Write access of the web server user to the plugins folder</li><li>Plugin Manager cannot install itself – install it the first time from the command line</li></ul>
+    
+  </div>
+  <div class="card">
+    <h2>Documentation</h2>
+    <ul class="linklist">
+      <li><a href="https://github.com/s29829/plugin_manager/blob/HEAD/README.md">Documentation (English)</a></li>
+      <li><a href="https://github.com/s29829/plugin_manager/blob/HEAD/README.pl.md">Dokumentacja (polski)</a></li>
+      <li><a href="https://github.com/s29829/plugin_manager/blob/HEAD/CHANGELOG.md">Changelog</a></li>
+      <li><a href="https://github.com/s29829/plugin_manager/blob/HEAD/LICENSE">License</a> · <a href="https://github.com/s29829/plugin_manager/blob/HEAD/LICENSE-COMMERCIAL.md">Commercial use</a></li>
+      <li><a href="https://github.com/s29829/plugin_manager/issues">Report a problem</a></li>
+    </ul>
+  </div>
+</div>
+</section>
+
+</main>
+<footer class="footer">
+  <div class="wrap">
+    <p><strong>License:</strong> PolyForm Noncommercial 1.0.0 – free for private and noncommercial use. Commercial use requires the author&#x27;s written permission (see LICENSE-COMMERCIAL.md in each plugin).</p>
+    <p>Independent plugins by Jacek Kowalczyk. Not affiliated with or endorsed by the ResourceSpace project or Montala Ltd. ResourceSpace is open source software licensed under the BSD licence.</p>
+    <p class="muted">Site generated 2026-11-19. Download buttons always point to the latest release on GitHub.</p>
+  </div>
+</footer>
+<script src="assets/site.js?v=202611191157" defer></script>
+</body>
+</html>
